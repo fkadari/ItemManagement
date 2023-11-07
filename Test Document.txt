@@ -1,4 +1,4 @@
-1-First create database with query 1 feom query document
+1-First create database by right Click on Databases->Create Database->itemmanagement
 2-Create Category table by clicking on database->scehma-> right click on tables with query 2
 3-Create Items table by using query 3
 
