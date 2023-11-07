@@ -1,0 +1,78 @@
+package ItemManagement;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+
+public class Application {
+
+	
+	public static void main(String[] args) {
+		try {
+			Service abc= new Service();
+			// Establish database connection
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/itemmanagement", "postgres",
+					"Faizan007");
+
+			// Create CategoryManager and ItemManager objects
+			CategoryManager categoryManager = new CategoryManager(conn);
+			ItemManager itemManager = new ItemManager(conn);
+
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter Key");
+			
+			while (true) {
+				int key = Integer.parseInt(sc.nextLine());
+				switch (key) {
+				case 1:
+					// Add a new category
+					System.out.println("case 1");
+					abc.addNewCatgory();
+					
+//					categoryManager.addCategory(category);
+					break;
+				case 2:
+					System.out.println("case 2");
+					// Add a new item and associate it with a category
+//					Item item = new Item(1, "Java ", " programming", 4);
+//					itemManager.addItem(item);
+					abc.addItemByCategoryId();
+					break;
+				case 3:
+					System.out.println("Case 3");
+					abc.getAllCategories();
+					break;
+				case 4:
+					System.out.println("case 4");
+					abc.getAllItemtoCategory();
+					// List all items in a specific category
+//					List<Item> items = itemManager.getItemsByCategory(4);
+//					for (Item i : items) {
+//						System.out.println(i.getName());
+//					}
+					break;
+//				case 4:
+//					// Update an item's details
+//					item.setDescription("Example");
+//					itemManager.updateItem(item);
+//					break;
+				case 5:
+					// Delete an item
+					itemManager.deleteItem(1);
+					break;
+				case 6:
+					// Close database connection
+					conn.close();
+					break;
+				default:
+					System.out.println("Invalid choice. Please try again.");
+					break;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}

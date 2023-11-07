@@ -1,0 +1,46 @@
+package ItemManagement;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.List;
+
+public class Application {
+
+    public static void main(String[] args) {
+        try {
+            // Establish database connection
+            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/itemmanagement", "postgres", "Faizan");
+
+            // Create CategoryManager and ItemManager objects
+            CategoryManager categoryManager = new CategoryManager(conn);
+            ItemManager itemManager = new ItemManager(conn);
+
+            // Add a new category
+            Category category = new Category(1, "Books");
+            categoryManager.addCategory(category);
+
+            // Add a new item and associate it with a category
+            Item item = new Item(1, "Java Programming", "A beginner's guide to Java programming", 1);
+            itemManager.addItem(item);
+
+            // List all items in a specific category
+            List<Item> items = itemManager.getItemsByCategory(1);
+            for (Item i : items) {
+                System.out.println(i.getName());
+            }
+
+            // Update an item's details
+            item.setDescription("A comprehensive guide to Java programming");
+            itemManager.updateItem(item);
+
+            // Delete an item
+            itemManager.deleteItem(1);
+
+            // Close database connection
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}

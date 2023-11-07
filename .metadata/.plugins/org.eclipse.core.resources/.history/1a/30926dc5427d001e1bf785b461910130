@@ -1,0 +1,28 @@
+package ItemManagement;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+public class Service {
+	public void addNew() {
+		Connection conn;
+		try {
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/itemmanagement", "postgres",
+					"Faizan007");
+
+			// Create CategoryManager and ItemManager objects
+			CategoryManager categoryManager = new CategoryManager(conn);
+			ItemManager itemManager = new ItemManager(conn);
+			Scanner sc = new Scanner(System.in);
+			int cateId= Integer.parseInt(sc.nextLine());
+			String cateName= sc.nextLine();
+			Category category = new Category(cateId, cateName);
+			categoryManager.addCategory(category);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

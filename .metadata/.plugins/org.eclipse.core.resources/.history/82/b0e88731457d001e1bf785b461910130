@@ -1,0 +1,66 @@
+package ItemManagement;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+
+public class Service {
+	Connection conn;
+	int cateId;
+	public void addNew() {
+
+		try {
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/itemmanagement", "postgres",
+					"Faizan007");
+
+			// Create CategoryManager and ItemManager objects
+			CategoryManager categoryManager = new CategoryManager(conn);
+			ItemManager itemManager = new ItemManager(conn);
+			Scanner sc = new Scanner(System.in);
+		    cateId = Integer.parseInt(sc.nextLine());
+			String cateName = sc.nextLine();
+			Category category = new Category(cateId, cateName);
+			categoryManager.addCategory(category);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void getItemByCategoryId() {
+		try {
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/itemmanagement", "postgres",
+					"Faizan007");
+			Scanner sc = new Scanner(System.in);
+			CategoryManager categoryManager = new CategoryManager(conn);
+			ItemManager itemManager = new ItemManager(conn);
+			int id= Integer.parseInt(sc.nextLine());
+			String name= sc.nextLine();
+			String desc= sc.nextLine();
+			 cateId = Integer.parseInt(sc.nextLine());
+			Item item = new Item(id, name, desc, cateId);
+			itemManager.addItem(item);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void getAllCategories() {
+		try {
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/itemmanagement", "postgres",
+					"Faizan007");
+		
+		Scanner sc = new Scanner(System.in);
+		CategoryManager categoryManager = new CategoryManager(conn);
+		List<Category> category = categoryManager.getAllCategories();
+		for(Category c: category) {
+			System.out.println(c.getId()+" "+c.getName());
+		}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
